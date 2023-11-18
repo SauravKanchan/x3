@@ -4,7 +4,6 @@ function loadScript(scriptName, callback) {
   scriptEl.addEventListener("load", callback, false);
   document.head.appendChild(scriptEl);
 }
-console.log("popup.js loaded");
 loadScript("index.bundle", function () {
   console.log("Loaded index.bundle.js");
 });
