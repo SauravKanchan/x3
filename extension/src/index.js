@@ -1,5 +1,6 @@
 const ethers = require("ethers");
 let tweets = new Set();
+let page = new Set();
 import { ABI, ADDRESS } from "../config";
 import form from "./components/form.html";
 import button from "./components/button.html";
@@ -12,11 +13,6 @@ async function checkIfReactRendered() {
       // check tweet_div exists in tweets
       if (!tweets.has(tweet_div)) {
         tweets.add(tweet_div);
-
-        // add popup
-        let popup_div = document.createElement("div");
-        popup_div.innerHTML = popup;
-        tweet_div.appendChild(popup_div);
 
         // check whether tweet_div.innerText has a https://x3.fyi/id/ link
         if (tweet_div.innerText.includes("https://x3.fyi/id/")) {
@@ -81,6 +77,20 @@ async function checkIfReactRendered() {
     });
   } else {
     setTimeout(checkIfReactRendered, 100);
+  }
+
+  let profile_page = document.querySelector(
+    "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-kemksi.r-1kqtdi0.r-1ljd8xs.r-13l2t4g.r-1phboty.r-16y2uox.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(3) > div > div > div > div > div.css-1dbjc4n.r-1habvwh.r-18u37iz.r-1w6e6rj.r-1wtj0ep > div.css-1dbjc4n.r-obd0qt.r-18u37iz.r-1w6e6rj.r-1h0z5md.r-dnmrzs > a"
+  );
+
+  // check whether url has been visited before
+  if (!page.includes(window.location.href)) {
+    page.add(window.location.href);
+    if (profile_page) {
+      console.log("profile page");
+    } else {
+      console.log("not profile page");
+    }
   }
 }
 checkIfReactRendered();
