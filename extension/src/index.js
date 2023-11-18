@@ -2,6 +2,8 @@ const ethers = require("ethers");
 let tweets = new Set();
 import { ABI, ADDRESS } from "../config";
 import form from "./components/form.html";
+import button from "./components/button.html";
+import input from "./components/input.html";
 
 async function checkIfReactRendered() {
   const tweet_divs = document.querySelectorAll('div[data-testid="tweetText"]');
@@ -23,9 +25,20 @@ async function checkIfReactRendered() {
           let response = await fetch(
             "https://gateway.lighthouse.storage/ipfs/" + data[1]
           );
-          // log the response body
-          console.log("ver 3", await response.text());
-          tweet_div.innerHTML = tweet_div.innerHTML + form;
+          let selectedABI = await response.json();
+          let formcontent = "";
+          Object.keys(selectedABI).map((item) => {
+            let inputs = ``;
+            console.log(selectedABI[item].abi);
+            selectedABI[item].abi.inputs.map((i) => {
+              inputs += input.replace("$$name$$", i.name);
+            });
+            let but = button.replace("$$name$$", selectedABI[item].abi.name);
+            formcontent += form
+              .replace("$$input$$", inputs)
+              .replace("$$button$$", but);
+          });
+          tweet_div.innerHTML = tweet_div.innerHTML + formcontent;
         }
       }
     });
