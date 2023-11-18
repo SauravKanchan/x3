@@ -11,7 +11,7 @@ describe("x3", function () {
   beforeEach(async function () {
     signers = await ethers.getSigners();
     const x3Factory = await ethers.getContractFactory("X3Link", signers[0]);
-    contract = await x3Factory.deploy();
+    contract = await x3Factory.deploy(await signers[0].getAddress(), [await signers[0].getAddress()]);
     await contract.deployed();
   });
 

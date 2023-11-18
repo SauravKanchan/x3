@@ -101,3 +101,5 @@ export const ABI = [
     type: "function",
   },
 ];
+export const EAS_UID =
+  "0xe69c1fec64adccc2990cb139261332ead68c8d74333f6a220b50f3bed94ca884";

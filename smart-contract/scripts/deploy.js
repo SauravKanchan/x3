@@ -7,20 +7,12 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
-
-  const lockedAmount = hre.ethers.utils.parseEther("1");
-
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  const x3_factory = await hre.ethers.getContractFactory("X3Link");
+  const eas_address = "0x4200000000000000000000000000000000000021";
+  const address = ["0x30f6bB77f74e74d627771E7B757e984A1d6457f9"];
+  const x3 = await x3_factory.deploy(eas_address, address);
+  await x3.deployed();
+  console.log("X3 deployed to:", x3.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
