@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
 import side from "../assets/images/login_img.jpg";
 import { Outlet, Link } from "react-router-dom";
-import axios from "axios";
-import { BACKENC_API_URL, FRONTEND_API_URL } from "../config";
-import { ethers } from "ethers";
-import { useWeb3Modal, useWeb3ModalEvents } from "@web3modal/ethers5/react";
+import { useWeb3Modal } from "@web3modal/ethers5/react";
 import { useWeb3ModalSigner } from "@web3modal/ethers5/react";
 
 function Login() {
@@ -14,7 +11,7 @@ function Login() {
   useEffect(() => {
     if (signer) {
       window.signer = signer;
-      document.location.href = FRONTEND_API_URL + "/user/dashboard";
+      document.location.href = document.location.origin + "/user/dashboard";
     }
   }, [signer]);
   return (

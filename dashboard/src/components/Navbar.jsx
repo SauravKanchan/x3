@@ -11,14 +11,7 @@ function Navbar() {
 
   useEffect(() => {
     const upload = async () => {
-      //   const text =
-      //     "Sometimsdfasdfaksjdflkajsdfkljasdjfes, I Wish I Was A Cloud, Just Floating Along";
-      const apiKey = "db9a94b1.e543051d14564794a0087b32fffd42c0";
-      //   const name = "shikamaru"; //Optional
-      //   const response = await lighthouse.uploadText(text, apiKey, name);
-    //   const response = await lighthouse.getUploads(apiKey);
-    //   console.log(response);
-      //   console.log(response);
+
     };
     return () => {
       upload();

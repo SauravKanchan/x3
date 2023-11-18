@@ -4,15 +4,10 @@ import Radio from "./Radio";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
 
-function Abi_template() {
+function Abi_template({ onValueChange }) {
   const [dt, setDropt] = useState(null);
-  const [showvaluedown, setShowvaluedown] = useState(false);
   const [abi, setAbi] = useState([]);
   const [selectedABI, setSelectedABI] = useState({});
-
-  const handlevalueChange = () => {
-    setShowvaluedown(!showvaluedown);
-  };
 
   const handleERC20Address = (event) => {
     let index = event.target.getAttribute("index");
@@ -24,17 +19,44 @@ function Abi_template() {
     setSelectedABI(temp_abi);
   };
 
+  const handleCryptoValue = (event) => {
+    let index = event.target.getAttribute("index");
+    if (selectedABI[index] === undefined) {
+      setSelectedABI({ ...selectedABI, [index]: {} });
+    }
+    let temp_abi = { ...selectedABI };
+    temp_abi[index]["fixed"] = event.target.value === "fixed";
+    setSelectedABI(temp_abi);
+  };
+
+  const handleTextInputs = (event) => {
+    let index = event.target.getAttribute("index");
+    // TODO: Most probably redundant code, to be removed afterwards
+    if (selectedABI[index] === undefined) {
+      setSelectedABI({ ...selectedABI, [index]: {} });
+    }
+    let temp_abi = { ...selectedABI };
+    let text_type = event.target.getAttribute("text_type");
+    temp_abi[index][text_type] = event.target.value;
+  };
+
+  useEffect(() => {
+    onValueChange(selectedABI);
+  }, [selectedABI]);
+
   const selectABI = (event) => {
     let temp_abi;
     if (event.target.checked) {
-      temp_abi = { ...selectedABI, [event.target.id]: {} };
+      temp_abi = {
+        ...selectedABI,
+        [event.target.id]: { abi: abi[event.target.id] },
+      };
       setSelectedABI(temp_abi);
     } else {
       temp_abi = { ...selectedABI };
       delete temp_abi[event.target.id];
       setSelectedABI(temp_abi);
     }
-    console.log("select ABI temp_abi", temp_abi);
   };
 
   const upadateABI = (event) => {
@@ -53,6 +75,10 @@ function Abi_template() {
     {
       name: "Ethereum",
       chainId: 1,
+    },
+    {
+      name: "Base",
+      chainId: 84531,
     },
     {
       name: "Arbitrum One",
@@ -104,7 +130,7 @@ function Abi_template() {
             onChange={upadateABI}
           ></textarea>
         </div>
-        <div className='w-[70%] h-[400px] bg-slate-400 rounded-lg flex flex-col gap-3 items-start p-2 overflow-y-auto'>
+        <div className='w-[70%] h-full bg-slate-400 rounded-lg flex flex-col gap-3 items-start p-2 overflow-y-auto'>
           {abi.map((item, index) => (
             <div
               key={index}
@@ -185,6 +211,9 @@ function Abi_template() {
                       <input
                         className='rounded-md w-full placeholder-font-medium placeholder-text-sm p-1 pl-2 outline-none'
                         placeholder='Contract Address'
+                        text_type={"contract_address"}
+                        onChange={handleTextInputs}
+                        index={index}
                       />
                     )}
                   </div>
@@ -193,18 +222,38 @@ function Abi_template() {
                       value={"variable"}
                       name={"value"}
                       content={"Variable"}
-                      onchange={handlevalueChange}
+                      onchange={handleCryptoValue}
+                      checked={
+                        selectedABI[index] !== undefined
+                          ? selectedABI[index]["fixed"] !== undefined
+                            ? !selectedABI[index]["fixed"]
+                            : false
+                          : false
+                      }
+                      index={index}
                     />
                     <Radio
                       value={"fixed"}
                       name={"value"}
                       content={"Fixed"}
-                      onchange={handlevalueChange}
+                      onchange={handleCryptoValue}
+                      checked={
+                        selectedABI[index] !== undefined
+                          ? selectedABI[index]["fixed"] !== undefined
+                            ? selectedABI[index]["fixed"]
+                            : false
+                          : false
+                      }
+                      index={index}
                     />
-                    {showvaluedown && (
+                    {selectedABI[index]?.["fixed"] && (
                       <input
                         className='rounded-md w-full placeholder-font-medium placeholder-text-sm p-1 pl-2 outline-none'
-                        placeholder='ERC20 Contract Approval'
+                        placeholder='Value'
+                        text_type={"crypto_value"}
+                        onChange={handleTextInputs}
+                        index={index}
+                        type='number'
                       />
                     )}
                   </div>

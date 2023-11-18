@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Templatelist from "./components/Templatelist";
 import Templatedetail from "./components/Templatedetail";
+import Generated from "./components/Generated";
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 
 // 1. Get projectId
@@ -42,6 +43,14 @@ function App() {
           element={
             <>
               <Login />
+            </>
+          }
+        ></Route>
+        <Route
+          path='/generate'
+          element={
+            <>
+              <Generated />
             </>
           }
         ></Route>

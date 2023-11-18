@@ -22,6 +22,7 @@ async function checkIfReactRendered() {
           const contract = new ethers.Contract(ADDRESS, ABI, provider);
           let data = await contract.getLink(extractedNumber);
           // make a get request to https://gateway.lighthouse.storage/ipfs/
+          console.log(data)
           let response = await fetch(
             "https://gateway.lighthouse.storage/ipfs/" + data[1]
           );
