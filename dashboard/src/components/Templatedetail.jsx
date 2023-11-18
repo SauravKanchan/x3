@@ -23,11 +23,8 @@ function Templatedetail() {
   const handleGenerate = async () => {
     const apiKey = "db9a94b1.e543051d14564794a0087b32fffd42c0";
     const name = "shikamaru"; //Optional
-    let data = {
-      abi: Object.values(finalData),
-    };
     const response = await lighthouse.uploadText(
-      JSON.stringify(data),
+      JSON.stringify(finalData),
       apiKey,
       name
     );
