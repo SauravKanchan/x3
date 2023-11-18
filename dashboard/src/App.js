@@ -47,7 +47,7 @@ function App() {
           }
         ></Route>
         <Route
-          path='/generate'
+          path='/id/:id'
           element={
             <>
               <Generated />

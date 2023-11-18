@@ -23,7 +23,7 @@ function Login() {
               <span className='bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 inline-block text-transparent bg-clip-text'>
                 X3
               </span>{" "}
-              <span>Link </span>X with Web3
+              Supercharge your Twitter Post
             </div>
             {/* <div className='text-2xl'>
               <span className='bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 inline-block text-transparent bg-clip-text'>

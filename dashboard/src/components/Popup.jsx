@@ -5,7 +5,7 @@ function Popup(props) {
     <div className="fixed inset-0 bg-black bg-opacity-25 w-full backdrop-blur-sm center ">
       <div className="bg-white p-10 rounded w-fit text-lg center gap-4 flex-col">
         <div className=" font-semibold text-center text-2xl text-gray-700 w-full">Here is your x3 link</div>
-        <div className='w-full text-center text-lg text-blue-500 underline-offset-1' >https://x3.fyi/id/{props.linkId}</div>
+        <div className='w-full text-center text-lg text-blue-500 underline-offset-1' >http://localhost:3000/id/{props.linkId}</div>
         <div className='w-full text-center font-medium text-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 inline-block text-transparent bg-clip-text'>Just copy the above link and see the magic happens</div>
       </div>
     </div>
