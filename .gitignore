@@ -1,5 +1,4 @@
-smart-contract/node_modules
-.env
+*/.env
 smart-contract/coverage
 smart-contract/coverage.json
 smart-contract/typechain
@@ -8,3 +7,6 @@ smart-contract/typechain-types
 #Hardhat files
 smart-contract/cache
 smart-contract/artifacts
+
+*/node_modules
+*/dist

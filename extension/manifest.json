@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "X3",
+  "description": "test description",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://x.com/*",
+        "https://twitter.com/*"
+      ],
+      "js": ["./popup.js"]
+    }
+  ],
+  "web_accessible_resources": ["dist/*.*"],
+  "permissions": ["activeTab", "tabs", "storage"]
+}
