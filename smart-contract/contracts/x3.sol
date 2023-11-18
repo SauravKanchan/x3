@@ -8,14 +8,15 @@ contract X3Link {
     }
     mapping(uint => Link) private links;
 
-    uint private linkCount;
+    uint public linkCount;
 
     event LinkCreated(uint id, address owner, bytes32 ipfs_hash);
 
-    function createLink(bytes32 _ipfs_hash) public {
+    function createLink(bytes32 _ipfs_hash) public returns(uint256) {
         links[linkCount] = Link(msg.sender, _ipfs_hash);
         emit LinkCreated(linkCount, msg.sender, _ipfs_hash);
         linkCount++;
+        return linkCount;
     }
 
     function getLink(uint _id) public view returns (address, bytes32) {
