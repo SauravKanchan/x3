@@ -23,7 +23,8 @@ async function checkIfReactRendered() {
           let response = await fetch(
             "https://gateway.lighthouse.storage/ipfs/" + data[1]
           );
-          console.log(response.data);
+          // log the response body
+          console.log("ver 3", await response.text());
           tweet_div.innerHTML = tweet_div.innerHTML + form;
         }
       }

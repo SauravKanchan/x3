@@ -1,17 +1,19 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "X3",
   "description": "test description",
   "version": "0.0.1",
   "content_scripts": [
     {
-      "matches": [
-        "https://x.com/*",
-        "https://twitter.com/*"
-      ],
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
       "js": ["./popup.js"]
     }
   ],
-  "web_accessible_resources": ["dist/*.*"],
-  "permissions": ["activeTab", "tabs", "storage"]
+  "web_accessible_resources": [
+    {
+      "resources": ["dist/*.*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": ["activeTab", "storage", "tabs"]
 }
