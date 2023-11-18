@@ -15,5 +15,14 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "permissions": ["activeTab", "storage", "tabs"]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "declarativeNetRequest",
+    "browsingData"
+  ]
 }
