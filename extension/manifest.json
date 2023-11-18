@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "X3",
   "description": "test description",
   "version": "0.0.1",
@@ -9,20 +9,19 @@
       "js": ["./popup.js"]
     }
   ],
-  "web_accessible_resources": [
-    {
-      "resources": ["dist/*.*"],
-      "matches": ["<all_urls>"]
-    }
-  ],
+  "web_accessible_resources": ["dist/*.*"],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"],
+    "persistent": true
   },
   "permissions": [
     "activeTab",
-    "storage",
     "tabs",
-    "declarativeNetRequest",
-    "browsingData"
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "browsingData",
+    "http://*/*",
+    "https://*/*"
   ]
 }
