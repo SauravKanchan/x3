@@ -10,6 +10,9 @@ import attest from "./components/attest.html";
 
 async function checkIfReactRendered() {
   const tweet_divs = document.querySelectorAll('div[data-testid="tweetText"]');
+  await window.ethereum.enable();
+  let provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(ADDRESS, ABI, provider);
   if (tweet_divs.length > 0) {
     tweet_divs.forEach(async (tweet_div) => {
       // check tweet_div exists in tweets
@@ -21,9 +24,6 @@ async function checkIfReactRendered() {
           let match = tweet_div.innerText.match(/(localhost:3000\/id\/(\d+))/);
           let extractedNumber = match ? match[2] : null;
 
-          await window.ethereum.enable();
-          let provider = new ethers.providers.Web3Provider(window.ethereum);
-          const contract = new ethers.Contract(ADDRESS, ABI, provider);
           let data = await contract.getLink(extractedNumber);
           // make a get request to https://gateway.lighthouse.storage/ipfs/
           let response = await fetch(
