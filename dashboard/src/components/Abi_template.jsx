@@ -41,7 +41,17 @@ function Abi_template({ onValueChange }) {
   };
 
   useEffect(() => {
-    onValueChange(selectedABI);
+    let temp = { ...selectedABI };
+    let data = {};
+    console.log("incoming", temp);
+    data["contract_address"] = temp["contract_address"];
+    delete temp["contract_address"];
+    data["network"] = temp["network"];
+    delete temp["network"];
+    window.temp = temp;
+    data["abi"] = Object.values(temp).map((e) => e.abi);
+    console.log("outgoing", data);
+    onValueChange(data);
   }, [selectedABI]);
 
   const selectABI = (event) => {
@@ -118,11 +128,25 @@ function Abi_template({ onValueChange }) {
       <div className='w-full h-full flex p-3 gap-2'>
         <div className='flex flex-col h-full gap-3 w-[30%] px-2 py-0'>
           <div className='w-full h-fit'>
-            <Select data={dropdown} placeholder={"Select a network"} />
+            <Select
+              data={dropdown}
+              placeholder={"Select a network"}
+              onchange={(event) => {
+                let temp_abi = { ...selectedABI };
+                temp_abi["network"] = event.target.value;
+                return setSelectedABI(temp_abi);
+              }}
+            />
           </div>
           <input
             className='rounded-lg w-full p-3 placeholder-font-medium placeholder-text-lg outline-none pl-2'
             placeholder='Contact address'
+            onChange={(event) => {
+              let temp_abi = { ...selectedABI };
+              console.log(temp_abi);
+              temp_abi["contract_address"] = event.target.value;
+              return setSelectedABI(temp_abi);
+            }}
           />
           <textarea
             className='rounded-lg w-full p-3 placeholder-font-medium placeholder-text-lg outline-none pl-2 h-full'

@@ -1,7 +1,6 @@
 import React from 'react'
 
 function Popup(props) {
-  console.log(props.linkId)
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 w-full backdrop-blur-sm center ">
       <div className="bg-white p-10 rounded w-fit text-lg center gap-4 flex-col">

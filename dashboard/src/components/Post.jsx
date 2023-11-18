@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import profile from "../assets/images/profile.jpg";
 import bluetick from "../assets/images/blue_tick.png";
 import menu from "../assets/images/three-dots.svg";
@@ -10,7 +10,11 @@ import view from "../assets/images/view_icon.svg";
 import bookmark from "../assets/images/bookmark_icon.svg";
 import share from "../assets/images/share_icon.svg";
 import Fields from "./Fields";
+
 function App(props) {
+  useEffect(() => {
+    console.log("props", props,props.abiData.abi);
+  }, [props.abiData]);
   const icon = [
     {
       img: chat,
@@ -103,16 +107,19 @@ function App(props) {
               a global sensation! With its friendly Shiba Inu mascot and a
               growing community of believers 🐕💰
             </p>
-            {Object.keys(props.abiData).map((item) => (
-              <div className='w-full py-2'>
-                {Object.keys(props.abiData[item].abi.inputs).map((i) => (
-                  <Fields
-                    placeholder={props.abiData[item].abi.inputs[i].name}
-                  />
+            {props.abiData?.abi && (
+              <>
+                {props.abiData.abi.map((func_abi) => (
+                  <div className='w-full py-2'>
+                    {func_abi.inputs.map((input) => (
+                      <Fields placeholder={input.name} />
+                    ))}
+                    <Fields submit={func_abi.name} />
+                  </div>
                 ))}
-                <Fields submit={props.abiData[item].abi.name} />
-              </div>
-            ))}
+              </>
+            )}
+
             {props.last ? (
               <div className='w-full py-2'>{props.last}</div>
             ) : null}

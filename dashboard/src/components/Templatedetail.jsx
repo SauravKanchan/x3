@@ -15,7 +15,6 @@ function Templatedetail() {
   const [linkId, setLinkId] = useState("");
 
   const handleBack = async () => {
-    console.log("Previous");
     navigate("/user/templatelist");
   };
 
@@ -24,13 +23,18 @@ function Templatedetail() {
   const handleGenerate = async () => {
     const apiKey = "db9a94b1.e543051d14564794a0087b32fffd42c0";
     const name = "shikamaru"; //Optional
+    let data = {
+      abi: Object.values(finalData),
+    };
     const response = await lighthouse.uploadText(
-      JSON.stringify(finalData),
+      JSON.stringify(data),
       apiKey,
       name
     );
     const contract = new ethers.Contract(ADDRESS, ABI, window.signer);
-    setLinkId(String(await contract.callStatic.createLink(response.data.Hash)));
+    setLinkId(
+      parseInt(await contract.callStatic.createLink(response.data.Hash)) - 1
+    );
     const tx = await contract.createLink(response.data.Hash);
     await tx.wait();
     setPopup(!popup);
@@ -38,6 +42,7 @@ function Templatedetail() {
 
   const handleABIData = (data) => {
     setFinalData(data);
+    console.log("data", data);
   };
 
   let pathname = useLocation().pathname;
