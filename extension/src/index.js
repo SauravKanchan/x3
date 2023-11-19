@@ -2,11 +2,12 @@ const ethers = require("ethers");
 let tweets = new Set();
 let profile_page_url = new Set();
 let others_profile_url = new Set();
-import { ABI, ADDRESS } from "../config";
+import { ABI, ADDRESS, EAS_CONTRACT_ADDRESS, EAS_UID } from "../config";
 import form from "./components/form.html";
 import button from "./components/button.html";
 import input from "./components/input.html";
 import attest from "./components/attest.html";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 
 async function checkIfReactRendered() {
   const tweet_divs = document.querySelectorAll('div[data-testid="tweetText"]');
@@ -65,10 +66,6 @@ async function checkIfReactRendered() {
                 selectedABI.abi,
                 provider.getSigner()
               );
-              window.contract = contract;
-              window.func_abi = func_abi;
-              window.input_values = input_values;
-              window.provider = provider;
               let tx = await contract.functions[func_abi.name](input_values);
               await tx.wait();
               alert("Transaction mined!");
@@ -86,8 +83,13 @@ async function checkIfReactRendered() {
   );
 
   let others_profile = document.querySelector(
-    "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-kemksi.r-1kqtdi0.r-1ljd8xs.r-13l2t4g.r-1phboty.r-16y2uox.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(3) > div > div > div > div > div.css-1dbjc4n.r-1habvwh.r-18u37iz.r-1w6e6rj.r-1wtj0ep > div.css-1dbjc4n.r-obd0qt.r-18u37iz.r-1w6e6rj.r-1h0z5md.r-dnmrzs > div:nth-child(2) > div.css-1dbjc4n.r-6gpygo > div"
+    "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-kemksi.r-1kqtdi0.r-1ljd8xs.r-13l2t4g.r-1phboty.r-16y2uox.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(3) > div > div > div > div > div.css-1dbjc4n.r-1habvwh.r-18u37iz.r-1w6e6rj.r-1wtj0ep > div.css-1dbjc4n.r-obd0qt.r-18u37iz.r-1w6e6rj.r-1h0z5md.r-dnmrzs > div:nth-child(2) > div.css-1dbjc4n.r-6gpygo > div > div > span > span"
   );
+  if (!others_profile) {
+    others_profile = document.querySelector(
+      "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-kemksi.r-1kqtdi0.r-1ljd8xs.r-13l2t4g.r-1phboty.r-16y2uox.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(3) > div > div > div > div > div.css-1dbjc4n.r-1habvwh.r-18u37iz.r-1w6e6rj.r-1wtj0ep > div.css-1dbjc4n.r-obd0qt.r-18u37iz.r-1w6e6rj.r-1h0z5md.r-dnmrzs > div:nth-child(3) > div.css-1dbjc4n.r-6gpygo > div > div > span > span"
+    );
+  }
 
   // check whether url has been visited before
   // if (!page.has(window.location.href)) {
@@ -106,7 +108,31 @@ async function checkIfReactRendered() {
       );
       follow_div.innerHTML = follow_div.innerHTML + attest;
       document.getElementById("x3-attest").onclick = async () => {
-        console.log("attest", contract);
+        console.log(EAS_CONTRACT_ADDRESS);
+        const eas = new EAS(EAS_CONTRACT_ADDRESS);
+        eas.connect(await provider.getSigner());
+        window.eas = eas;
+        const schemaEncoder = new SchemaEncoder("string twitter_username");
+        const username = document.querySelector(
+          "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-kemksi.r-1kqtdi0.r-1ljd8xs.r-13l2t4g.r-1phboty.r-16y2uox.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(3) > div > div > div > div > div.css-1dbjc4n.r-6gpygo.r-14gqq1x > div > div > div.css-1dbjc4n.r-1awozwy.r-18u37iz.r-1wbh5a2 > div > div > div > span"
+        ).innerText;
+        const encodedData = schemaEncoder.encodeData([
+          { name: "twitter_username", value: username, type: "string" },
+        ]);
+        const schemaUID = EAS_UID;
+        const tx = await eas.attest({
+          schema: schemaUID,
+          data: {
+            recipient: "0x1207F3dc546Cea8122a4fd4e0208FCb69d8debF4",
+            expirationTime: 0,
+            revocable: false, // Be aware that if your schema is not revocable, this MUST be false
+            data: encodedData,
+          },
+        });
+
+        const newAttestationUID = await tx.wait();
+        console.log("New attestation UID:", username, newAttestationUID);
+        alert("Attestion completed!");
       };
     }
   }

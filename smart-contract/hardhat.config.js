@@ -3,7 +3,7 @@ const { config } = require("dotenv");
 const { resolve } = require("path");
 config({ path: resolve(__dirname, "./.env") });
 require("@nomiclabs/hardhat-etherscan");
-
+require("hardhat-tracer");
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.19",
