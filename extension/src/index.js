@@ -33,6 +33,13 @@ async function checkIfReactRendered() {
           );
           let selectedABI = await response.json();
           let formcontent = "";
+          if (selectedABI.question) {
+            tweet_div.innerHTML = `<p>${selectedABI.question}</p>`;
+            formcontent += button.replaceAll("$$name$$", "For");
+            formcontent += button.replaceAll("$$name$$", "Against");
+            tweet_div.innerHTML = tweet_div.innerHTML + formcontent;
+            return;
+          }
           selectedABI.abi.map((func_abi) => {
             let inputs = ``;
             func_abi.inputs.map((i) => {
