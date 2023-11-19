@@ -5,14 +5,7 @@ import {SchemaResolver} from "./lib/SchemaResolver.sol";
 import {IEAS, Attestation} from "./lib/IEAS.sol";
 
 contract X3Link is SchemaResolver {
-    constructor(
-        IEAS eas,
-        address[] memory intialAttestors
-    ) SchemaResolver(eas) {
-        for (uint i; i < intialAttestors.length; i++) {
-            attesters[intialAttestors[i]] = 3;
-        }
-    }
+    constructor(IEAS eas) SchemaResolver(eas) {}
 
     struct Link {
         address owner;
@@ -43,7 +36,7 @@ contract X3Link is SchemaResolver {
         links[_id].ipfs_hash = _ipfs_hash;
     }
 
-    mapping(address => uint) private attesters;
+    mapping(string => uint) public attesters;
 
     function voteAttester(address attester) external {}
 
@@ -51,11 +44,13 @@ contract X3Link is SchemaResolver {
         Attestation calldata attestation,
         uint256 /*value*/
     ) internal override returns (bool) {
-        if (attesters[attestation.attester] >= 1) {
-            ++attesters[attestation.attester];
-            return true;
-        }
-        return false;
+        string memory username = abi.decode(attestation.data, (string));
+        ++attesters[username];
+        return true;
+    }
+
+    function verifiedUser(string memory username) public view returns (bool) {
+        return attesters[username] >= 1;
     }
 
     function onRevoke(

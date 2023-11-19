@@ -1,11 +1,8 @@
-export const ADDRESS = "0xF7f85c096602aF8a2eB8A5A81cA8e780fE33547a";
+export const ADDRESS = "0xcc309163464512548C4fB1F1F861892980BF3A7f";
 export const RPC = "https://goerli.base.org";
 export const ABI = [
   {
-    inputs: [
-      { internalType: "contract IEAS", name: "eas", type: "address" },
-      { internalType: "address[]", name: "intialAttestors", type: "address[]" },
-    ],
+    inputs: [{ internalType: "contract IEAS", name: "eas", type: "address" }],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -57,6 +54,13 @@ export const ABI = [
     name: "attest",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "string", name: "", type: "string" }],
+    name: "attesters",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -178,6 +182,13 @@ export const ABI = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "string", name: "username", type: "string" }],
+    name: "verifiedUser",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "version",
     outputs: [{ internalType: "string", name: "", type: "string" }],
@@ -194,6 +205,7 @@ export const ABI = [
   { stateMutability: "payable", type: "receive" },
 ];
 export const EAS_UID =
-  "0xe69c1fec64adccc2990cb139261332ead68c8d74333f6a220b50f3bed94ca884";
+  "0x9419b0cbaeaf67a8f61f687edc16d9e43b3025abcc079366e94ebc17d0ef142e";
 
-export const EAS_CONTRACT_ADDRESS = "0x4200000000000000000000000000000000000021";
+export const EAS_CONTRACT_ADDRESS =
+  "0x4200000000000000000000000000000000000021";

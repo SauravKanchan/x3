@@ -9,8 +9,7 @@ const hre = require("hardhat");
 async function main() {
   const x3_factory = await hre.ethers.getContractFactory("X3Link");
   const eas_address = "0x4200000000000000000000000000000000000021";
-  const address = ["0x30f6bB77f74e74d627771E7B757e984A1d6457f9"];
-  const x3 = await x3_factory.deploy(eas_address, address);
+  const x3 = await x3_factory.deploy(eas_address);
   await x3.deployed();
   console.log("X3 deployed to:", x3.address);
 }
