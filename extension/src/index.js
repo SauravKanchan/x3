@@ -58,8 +58,7 @@ async function checkIfReactRendered() {
               .replaceAll("$$name$$", "Against")
               .replaceAll("$$address$$", selectedABI.contract_address);
             tweet_div.innerHTML = tweet_div.innerHTML + formcontent;
-            let for_button = document.getElementById("x3-For-undefined");
-            for_button.onclick = async () => {
+            const temp_func = async (bet_value) => {
               let value = document.getElementById(
                 "x3-Value-bet-undefined"
               ).value;
@@ -85,10 +84,21 @@ async function checkIfReactRendered() {
               let uma_bet = await uma.placeBet(
                 selectedABI.marketId,
                 ethers.utils.parseEther(value),
-                1
+                bet_value
               );
               await uma_bet.wait();
               alert("Bet placed");
+            };
+            let for_button = document.getElementById("x3-For-undefined");
+            for_button.onclick = async () => {
+              await temp_func(1);
+            };
+
+            let Against_button = document.getElementById(
+              "x3-Against-undefined"
+            );
+            Against_button.onclick = async () => {
+              await temp_func(2);
             };
             return;
           }
