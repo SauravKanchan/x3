@@ -12,9 +12,9 @@ let data = [
   },
   {
     icon: <CloudDoneRoundedIcon />,
-    name: "Ticketing",
+    name: "Prediction Market",
     link: "/user/templatenormal",
-    description: "Lorem, ipsum dolor sit",
+    description: "Your users can stake on prediction",
   },
 ];
 

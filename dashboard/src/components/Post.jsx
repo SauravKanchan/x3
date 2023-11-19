@@ -12,9 +12,6 @@ import share from "../assets/images/share_icon.svg";
 import Fields from "./Fields";
 
 function App(props) {
-  useEffect(() => {
-    console.log("props", props,props.abiData.abi);
-  }, [props.abiData]);
   const icon = [
     {
       img: chat,
@@ -107,7 +104,7 @@ function App(props) {
               a global sensation! With its friendly Shiba Inu mascot and a
               growing community of believers 🐕💰
             </p>
-            {props.abiData?.abi && (
+            {props.abiData?.abi && !props.question && (
               <>
                 {props.abiData.abi.map((func_abi) => (
                   <div className='w-full py-2'>
@@ -120,9 +117,12 @@ function App(props) {
               </>
             )}
 
-            {props.last ? (
-              <div className='w-full py-2'>{props.last}</div>
-            ) : null}
+            {props.question && (
+              <>
+                <Fields submit='For' />
+                <Fields submit='Against' color='red' />
+              </>
+            )}
           </div>
           <div className='bottom menu flex gap-1 justify-between items-center w-full'>
             {icon.map((iconItem, index) => (

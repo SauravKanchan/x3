@@ -86,6 +86,14 @@ function App() {
               </>
             }
           ></Route>
+          <Route
+            path='/user/templatenormal'
+            element={
+              <>
+                <Templatedetail />
+              </>
+            }
+          ></Route>
         </Route>
       </Routes>
     </Router>

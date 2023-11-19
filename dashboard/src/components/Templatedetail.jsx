@@ -13,6 +13,7 @@ function Templatedetail() {
   const navigate = useNavigate();
   const [finalData, setFinalData] = useState({});
   const [linkId, setLinkId] = useState("");
+  const [question, setQuestion] = useState("");
 
   const handleBack = async () => {
     navigate("/user/templatelist");
@@ -39,6 +40,9 @@ function Templatedetail() {
 
   const handleABIData = (data) => {
     setFinalData(data);
+    if (data.question) {
+      setQuestion(data.question);
+    }
     console.log("data", data);
   };
 
@@ -50,7 +54,7 @@ function Templatedetail() {
         {pathname === "/user/templateabi" ? (
           <Abi_template onValueChange={handleABIData} />
         ) : (
-          <Normal_template />
+          <Normal_template onValueChange={handleABIData} />
         )}
         <div
           className={popup ? "block" : "hidden"}
@@ -64,7 +68,7 @@ function Templatedetail() {
           </div>
           <div className='w-full h-[calc(100vh - 4rem)] flex items-center justify-center'>
             <div className='w-[400px] h-[400px] rounded-lg'>
-              <Post abiData={finalData} />
+              <Post question={question} abiData={finalData} />
             </div>
           </div>
         </div>
