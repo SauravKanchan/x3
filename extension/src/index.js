@@ -121,6 +121,9 @@ async function checkIfReactRendered() {
         if (!element.innerHTML.includes(green_tick)) {
           element.innerHTML = element.innerHTML + green_tick;
         }
+
+        follow_div.innerHTML = follow_div.innerHTML.replace(attest, "");
+        return;
       }
       others_profile_url.add(window.location.href);
       if (!follow_div.innerHTML.includes(attest)) {
