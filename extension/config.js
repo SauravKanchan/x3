@@ -384,3 +384,5 @@ export const UMA_CONTRACT_ABI = [
     type: "function",
   },
 ];
+
+export const UMA_ERC20_CONTRACT_ADDRESS = "0xEF8b46765ae805537053C59f826C3aD61924Db45";

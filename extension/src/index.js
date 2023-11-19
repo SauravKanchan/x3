@@ -2,7 +2,15 @@ const ethers = require("ethers");
 let tweets = new Set();
 let profile_page_url = new Set();
 let others_profile_url = new Set();
-import { ABI, ADDRESS, EAS_CONTRACT_ADDRESS, EAS_UID } from "../config";
+import {
+  ABI,
+  ADDRESS,
+  EAS_CONTRACT_ADDRESS,
+  EAS_UID,
+  UMA_CONTRACT_ABI,
+  UMA_CONTRACT_ADDRESS,
+  UMA_ERC20_CONTRACT_ADDRESS,
+} from "../config";
 import form from "./components/form.html";
 import button from "./components/button.html";
 import input from "./components/input.html";
@@ -32,12 +40,56 @@ async function checkIfReactRendered() {
             "https://gateway.lighthouse.storage/ipfs/" + data[1]
           );
           let selectedABI = await response.json();
+          if (!selectedABI.marketId) {
+            selectedABI.marketId =
+              "0xf3e56c1350bec09b9c887e667efea27b19c36c05fa817e4b3172fbd1e77455da";
+          }
           let formcontent = "";
           if (selectedABI.question) {
             tweet_div.innerHTML = `<p>${selectedABI.question}</p>`;
-            formcontent += button.replaceAll("$$name$$", "For");
-            formcontent += button.replaceAll("$$name$$", "Against");
+            formcontent += input
+              .replaceAll("$$name$$", "Value")
+              .replaceAll("$$function$$", "bet")
+              .replaceAll("$$address$$", selectedABI.contract_address);
+            formcontent += button
+              .replaceAll("$$name$$", "For")
+              .replaceAll("$$address$$", selectedABI.contract_address);
+            formcontent += button
+              .replaceAll("$$name$$", "Against")
+              .replaceAll("$$address$$", selectedABI.contract_address);
             tweet_div.innerHTML = tweet_div.innerHTML + formcontent;
+            let for_button = document.getElementById("x3-For-undefined");
+            for_button.onclick = async () => {
+              let value = document.getElementById(
+                "x3-Value-bet-undefined"
+              ).value;
+              const uma = new ethers.Contract(
+                UMA_CONTRACT_ADDRESS,
+                UMA_CONTRACT_ABI,
+                provider.getSigner()
+              );
+              let erc_20_abi = [
+                "function approve(address spender, uint256 amount) public returns (bool)",
+              ];
+              let erc20 = new ethers.Contract(
+                UMA_ERC20_CONTRACT_ADDRESS,
+                erc_20_abi,
+                provider.getSigner()
+              );
+              let tx = await erc20.approve(
+                UMA_CONTRACT_ADDRESS,
+                ethers.utils.parseEther(value)
+              );
+              await tx.wait();
+              console.log(selectedABI, value);
+              let uma_bet = await uma.placeBet(
+                selectedABI.marketId,
+                ethers.utils.parseEther(value),
+                1
+              );
+              await uma_bet.wait();
+              alert("Bet placed");
+            };
             return;
           }
           selectedABI.abi.map((func_abi) => {

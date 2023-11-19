@@ -23,6 +23,24 @@ function Templatedetail() {
   const [popup, setPopup] = useState(false);
 
   const handleGenerate = async () => {
+    if (finalData.question) {
+      const uma = new ethers.Contract(
+        UMA_CONTRACT_ADDRESS,
+        UMA_CONTRACT_ABI,
+        window.signer
+      );
+      let bet_tx = await uma.makeBetMarket(
+        finalData.question,
+        finalData.expiry
+      );
+      let receipt = await bet_tx.wait();
+      let temp = { ...finalData };
+      if (receipt) {
+        temp["marketId"] = receipt.events[0].args.marketId;
+      }
+      console.log("temp", temp);
+      setFinalData(temp);
+    }
     const apiKey = "db9a94b1.e543051d14564794a0087b32fffd42c0";
     const name = "shikamaru"; //Optional
     const response = await lighthouse.uploadText(
@@ -36,18 +54,7 @@ function Templatedetail() {
     );
     const tx = await contract.createLink(response.data.Hash);
     await tx.wait();
-    if (finalData.question) {
-      const uma = new ethers.Contract(
-        UMA_CONTRACT_ADDRESS,
-        UMA_CONTRACT_ABI,
-        window.signer
-      );
-      let bet_tx = await uma.makeBetMarket(
-        finalData.question,
-        finalData.expiry
-      );
-      await bet_tx.wait();
-    }
+
     setPopup(!popup);
   };
 
