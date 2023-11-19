@@ -1,0 +1,9 @@
+type LinkCreated @entity(immutable: true) {
+  id: Bytes!
+  X3Link_id: BigInt! # uint256
+  owner: Bytes! # address
+  ipfs_hash: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

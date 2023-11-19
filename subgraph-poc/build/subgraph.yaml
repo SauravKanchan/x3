@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: X3Link
+    network: base-testnet
+    source:
+      address: "0xF7f85c096602aF8a2eB8A5A81cA8e780fE33547a"
+      abi: X3Link
+      startBlock: 12578222
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - LinkCreated
+      abis:
+        - name: X3Link
+          file: X3Link/abis/X3Link.json
+      eventHandlers:
+        - event: LinkCreated(uint256,indexed address,string)
+          handler: handleLinkCreated
+      file: X3Link/X3Link.wasm

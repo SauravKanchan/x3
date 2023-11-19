@@ -1,0 +1,8 @@
+{
+  "base-testnet": {
+    "X3Link": {
+      "address": "0xF7f85c096602aF8a2eB8A5A81cA8e780fE33547a",
+      "startBlock": 12578222
+    }
+  }
+}

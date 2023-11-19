@@ -1,0 +1,18 @@
+{
+  "name": "saurav-subgraph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ zemse/saurav-subgraph",
+    "create-local": "graph create --node http://localhost:8020/ zemse/saurav-subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ zemse/saurav-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 zemse/saurav-subgraph",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.61.0",
+    "@graphprotocol/graph-ts": "0.30.0"
+  },
+  "devDependencies": { "matchstick-as": "0.5.0" }
+}
