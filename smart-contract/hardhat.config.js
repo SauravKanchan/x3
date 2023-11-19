@@ -6,7 +6,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-tracer");
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.19",
+  solidity: "0.8.16",
   networks: {
     local: {
       chainId: 31337,

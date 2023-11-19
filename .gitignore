@@ -11,3 +11,4 @@ smart-contract/artifacts
 */node_modules
 */dist
 dashboard/build
+.vscode

@@ -119,6 +119,7 @@ function App(props) {
 
             {props.question && (
               <>
+                <Fields placeholder='value' />
                 <Fields submit='For' />
                 <Fields submit='Against' color='red' />
               </>

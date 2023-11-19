@@ -8,6 +8,7 @@ import Popup from "./Popup";
 import lighthouse from "@lighthouse-web3/sdk";
 import { ethers } from "ethers";
 import { ABI, ADDRESS } from "../config";
+import { UMA_CONTRACT_ABI, UMA_CONTRACT_ADDRESS } from "../config";
 
 function Templatedetail() {
   const navigate = useNavigate();
@@ -35,6 +36,18 @@ function Templatedetail() {
     );
     const tx = await contract.createLink(response.data.Hash);
     await tx.wait();
+    if (finalData.question) {
+      const uma = new ethers.Contract(
+        UMA_CONTRACT_ADDRESS,
+        UMA_CONTRACT_ABI,
+        window.signer
+      );
+      let bet_tx = await uma.makeBetMarket(
+        finalData.question,
+        finalData.expiry
+      );
+      await bet_tx.wait();
+    }
     setPopup(!popup);
   };
 

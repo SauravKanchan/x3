@@ -209,3 +209,178 @@ export const EAS_UID =
 
 export const EAS_CONTRACT_ADDRESS =
   "0x4200000000000000000000000000000000000021";
+
+export const UMA_CONTRACT_ADDRESS =
+  "0x1eE9C8909e5f179348EFD6277130352b4ADE9dbB";
+
+export const UMA_CONTRACT_ABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "_defaultCurrency", type: "address" },
+      { internalType: "address", name: "_optimisticOracleV3", type: "address" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "assertionId",
+        type: "bytes32",
+      },
+    ],
+    name: "AssertionCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "assertionId",
+        type: "bytes32",
+      },
+    ],
+    name: "AssertionSettled",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "marketId",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "creater",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "endDate",
+        type: "uint256",
+      },
+    ],
+    name: "MarketBetCreated",
+    type: "event",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "marketId", type: "bytes32" }],
+    name: "assertBet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "assertionLiveness",
+    outputs: [{ internalType: "uint64", name: "", type: "uint64" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "assertionsMarket",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "defaultCurrency",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "defaultIdentifier",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "string", name: "statement", type: "string" },
+      { internalType: "uint256", name: "endDate", type: "uint256" },
+    ],
+    name: "makeBetMarket",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "marketAssertions",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "marketBets",
+    outputs: [
+      { internalType: "string", name: "statement", type: "string" },
+      { internalType: "uint256", name: "endDate", type: "uint256" },
+      { internalType: "uint256", name: "bidDate", type: "uint256" },
+      { internalType: "address", name: "creater", type: "address" },
+      { internalType: "bool", name: "resolved", type: "bool" },
+      { internalType: "uint8", name: "result", type: "uint8" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "oo",
+    outputs: [
+      {
+        internalType: "contract OptimisticOracleV3Interface",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "marketId", type: "bytes32" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint8", name: "prediction", type: "uint8" },
+    ],
+    name: "placeBet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "marketId", type: "bytes32" }],
+    name: "redeemBetAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "assertionId", type: "bytes32" }],
+    name: "settleAssertion",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
